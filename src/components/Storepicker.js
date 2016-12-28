@@ -8,7 +8,7 @@ class Storepicker extends React.Component {
           <input type="text" required placeholder="Store Name"/>
           <button type="submit">Visit -></button>
         </form>
-    )
+    );
   }
 }
 
