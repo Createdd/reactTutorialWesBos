@@ -9,14 +9,20 @@ class Order extends React.Component {
   renderOrder(key) {
     const fish = this.props.fishes[key];
     const count = this.props.order[key];
-    const removeButton = <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>;
+    const removeButton = (
+      <button onClick={() => this.props.removeFromOrder(key)}>×</button>
+    );
     if (!fish || fish.status === 'unavailable') {
-      return <li key={key}>Sorry,{fish ? fish.name : '🐠'}not available{removeButton}</li>;
+      return (
+        <li key={key}>
+          Sorry,{fish ? fish.name : '🐠'}not available{removeButton}
+        </li>
+      );
     }
     return (
       <li key={key}>
-        <span>{count}lbs {fish.name} {removeButton}</span>
-        <span className='price'>
+        <span>{count}lbs {fish.name}{removeButton}</span>
+        <span className="price">
           {formatPrice(count * fish.price)}
         </span>
       </li>
@@ -38,11 +44,11 @@ class Order extends React.Component {
       0
     );
     return (
-      <div className='order-wrap'>
+      <div className="order-wrap">
         <h2>Your Orderz</h2>
-        <ul className='order'>
+        <ul className="order">
           {orderIds.map(this.renderOrder)}
-          <li className='total'>
+          <li className="total">
             <strong>Total:</strong>
             {formatPrice(total)}
           </li>
