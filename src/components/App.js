@@ -4,6 +4,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
+import base from '../base';
 
 class App extends React.Component {
   constructor() {
@@ -15,6 +16,12 @@ class App extends React.Component {
       fishes: {},
       order: {}
     };
+  }
+  componentWillMount() {
+    this.ref = base.synState(`${this.props.params.storeId}/fishes`, {
+      context: this,
+      state: 'fishes'
+    });
   }
   addFish(fish) {
     const fishes = {...this.state.fishes};
@@ -47,7 +54,7 @@ class App extends React.Component {
         <Order fishes={this.state.fishes} order={this.state.order} />
         <Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
       </div>
-    )
+    );
   }
 }
 
