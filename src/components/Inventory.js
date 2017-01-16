@@ -18,7 +18,7 @@ class Inventory extends React.Component {
   componentDidMount() {
     base.onAuth((user) => {
       if(user) {
-
+        this.authHandler({user});
       }
     });
   }
