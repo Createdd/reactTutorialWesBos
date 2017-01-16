@@ -8,11 +8,19 @@ class Inventory extends React.Component {
     this.renderInventory = this.renderInventory.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
     this.authenticate = this.authenticate.bind(this);
+    this.authHandler = this.authHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       uid: null,
       owner: null
     };
+  }
+  componentDidMount() {
+    base.onAuth((user) => {
+      if(user) {
+
+      }
+    });
   }
   handleChange(e, key) {
     const fish = this.props.fishes[key];
@@ -30,23 +38,22 @@ class Inventory extends React.Component {
     else if(name === 'Twitter') {
     var provider = new base.auth.TwitterAuthProvider();
     }
-    base.auth().signInWithPopup(provider).then( (authData) => {
-      console.info(authData);
-      const storeRef = base.database().ref(this.props.storeId);
-      storeRef.once('value', (snapshot) => {
-        const data = snapshot.val() || {};
-        if(!data.owner) {
-          storeRef.set({
-            owner: authData.user.uid
-          });
-        }
-        this.setState({
-          uid: authData.user.uid,
-          owner: data.owner || authData.user.uid
+    base.auth().signInWithPopup(provider).then(this.authHandler);
+  }
+  authHandler(authData) {
+    console.info(authData);
+    const storeRef = base.database().ref(this.props.storeId);
+    storeRef.once('value', (snapshot) => {
+      const data = snapshot.val() || {};
+      if(!data.owner) {
+        storeRef.set({
+          owner: authData.user.uid
         });
+      }
+      this.setState({
+        uid: authData.user.uid,
+        owner: data.owner || authData.user.uid
       });
-    }).catch(function(error) {
-      console.log(error);
     });
   }
   renderLogin() {
