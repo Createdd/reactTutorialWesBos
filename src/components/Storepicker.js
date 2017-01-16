@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFunName } from '../helpers'
+import { getFunName } from '../helpers';
 
 class Storepicker extends React.Component {
   goToStore(event) {
@@ -11,11 +11,11 @@ class Storepicker extends React.Component {
 
   render() {
     return (
-        <form className="store-selector" onSubmit={(e) => {this.goToStore(e)}}>
+        <form className="store-selector" onSubmit={(e) => {this.goToStore(e);}}>
           <h1>Choose A Store</h1>
           <input type="text" required placeholder="Store Name"
             defaultValue={getFunName()}
-            ref={(input) => {this.storeInput = input}} />
+            ref={(input) => {this.storeInput = input;}} />
           <button type="submit">Visit -></button>
         </form>
     );
@@ -24,6 +24,6 @@ class Storepicker extends React.Component {
 
 Storepicker.contextTypes = {
   router: React.PropTypes.object
-}
+};
 
 export default Storepicker;
