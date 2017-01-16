@@ -9,6 +9,7 @@ class Inventory extends React.Component {
     this.renderLogin = this.renderLogin.bind(this);
     this.authenticate = this.authenticate.bind(this);
     this.authHandler = this.authHandler.bind(this);
+    this.logout = this.logout.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       uid: null,
@@ -39,6 +40,10 @@ class Inventory extends React.Component {
     var provider = new base.auth.TwitterAuthProvider();
     }
     base.auth().signInWithPopup(provider).then(this.authHandler);
+  }
+  logout() {
+    base.unauth();
+    this.setState({uid: null});
   }
   authHandler(authData) {
     console.info(authData);
@@ -127,7 +132,7 @@ class Inventory extends React.Component {
     );
   }
   render() {
-    const logout = <button> Logout! </button>;
+    const logout = <button onClick={this.logout}> Logout! </button>;
     if(!this.state.uid) {
       return <div>{this.renderLogin()}</div>;
     }
