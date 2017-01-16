@@ -11,15 +11,12 @@ class Inventory extends React.Component {
     this.authHandler = this.authHandler.bind(this);
     this.logout = this.logout.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      uid: null,
-      owner: null
-    };
+    this.state = { uid: null, owner: null };
   }
   componentDidMount() {
-    base.onAuth((user) => {
-      if(user) {
-        this.authHandler({user});
+    base.onAuth(user => {
+      if (user) {
+        this.authHandler({ user });
       }
     });
   }
@@ -30,30 +27,26 @@ class Inventory extends React.Component {
     this.props.updateFish(key, updatedFish);
   }
   authenticate(name) {
-    if(name === 'Github') {
-    var provider = new base.auth.GithubAuthProvider();
-    }
-    else if(name === 'Facebook') {
-    var provider = new base.auth.FacebookAuthProvider();
-    }
-    else if(name === 'Twitter') {
-    var provider = new base.auth.TwitterAuthProvider();
+    if (name === 'Github') {
+      var provider = new base.auth.GithubAuthProvider();
+    } else if (name === 'Facebook') {
+      var provider = new base.auth.FacebookAuthProvider();
+    } else if (name === 'Twitter') {
+      var provider = new base.auth.TwitterAuthProvider();
     }
     base.auth().signInWithPopup(provider).then(this.authHandler);
   }
   logout() {
     base.unauth();
-    this.setState({uid: null});
+    this.setState({ uid: null });
   }
   authHandler(authData) {
     console.info(authData);
     const storeRef = base.database().ref(this.props.storeId);
-    storeRef.once('value', (snapshot) => {
+    storeRef.once('value', snapshot => {
       const data = snapshot.val() || {};
-      if(!data.owner) {
-        storeRef.set({
-          owner: authData.user.uid
-        });
+      if (!data.owner) {
+        storeRef.set({ owner: authData.user.uid });
       }
       this.setState({
         uid: authData.user.uid,
@@ -118,7 +111,6 @@ class Inventory extends React.Component {
           placeholder="Fish Desc"
           onChange={e => this.handleChange(e, key)}
         >
-
         </textarea>
         <input
           type="text"
@@ -133,10 +125,10 @@ class Inventory extends React.Component {
   }
   render() {
     const logout = <button onClick={this.logout}> Logout! </button>;
-    if(!this.state.uid) {
+    if (!this.state.uid) {
       return <div>{this.renderLogin()}</div>;
     }
-    if(this.state.uid !== this.state.owner) {
+    if (this.state.uid !== this.state.owner) {
       return (
         <div>
           <p>Sorry your are not the Owner of THAT STORE 👐 </p>
