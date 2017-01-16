@@ -8,7 +8,6 @@ class Inventory extends React.Component {
     this.renderInventory = this.renderInventory.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
     this.authenticate = this.authenticate.bind(this);
-    this.authHandler = this.authHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
       uid: null,
@@ -49,9 +48,6 @@ class Inventory extends React.Component {
     }).catch(function(error) {
       console.log(error);
     });
-  }
-  authHandler(err, authData) {
-    console.log(authData);
   }
   renderLogin() {
     return (
