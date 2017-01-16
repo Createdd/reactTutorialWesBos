@@ -1,10 +1,19 @@
 import React from 'react';
 import AddFishForm from './AddFishForm';
+import base from '../base';
 
 class Inventory extends React.Component {
   constructor() {
     super();
     this.renderInventory = this.renderInventory.bind(this);
+    this.renderLogin = this.renderLogin.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.authHandler = this.authHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      uid: null,
+      owner: null
+    };
   }
   handleChange(e, key) {
     const fish = this.props.fishes[key];
@@ -12,23 +21,42 @@ class Inventory extends React.Component {
     const updatedFish = { ...fish, [e.target.name]: [ e.target.value ] };
     this.props.updateFish(key, updatedFish);
   }
+  authenticate(name) {
+    if(name === 'Github') {
+    var provider = new base.auth.GithubAuthProvider();
+    }
+    else if(name === 'Facebook') {
+    var provider = new base.auth.FacebookAuthProvider();
+    }
+    else if(name === 'Twitter') {
+    var provider = new base.auth.TwitterAuthProvider();
+    }
+    base.auth().signInWithPopup(provider).then(function(result) {
+      console.info(result);
+    }).catch(function(error) {
+      console.log(error);
+    });
+  }
+  authHandler(err, authData) {
+    console.log(authData);
+  }
   renderLogin() {
     return (
       <nav className="login">
         <h2>Inventory</h2>
         <p>Please Sign in</p>
-        <button className="github" onClick={() => this.authenticate('github')}>
+        <button className="github" onClick={() => this.authenticate('Github')}>
           Log In with se GITHUB!
         </button>
         <button
           className="facebook"
-          onClick={() => this.authenticate('facebook')}
+          onClick={() => this.authenticate('Facebook')}
         >
           Log In with se facebook!
         </button>
         <button
           className="twitter"
-          onClick={() => this.authenticate('twitter')}
+          onClick={() => this.authenticate('Twitter')}
         >
           Log In with se twitter!
         </button>
@@ -83,9 +111,22 @@ class Inventory extends React.Component {
     );
   }
   render() {
+    const logout = <button> Logout! </button>;
+    if(!this.state.uid) {
+      return <div>{this.renderLogin()}</div>;
+    }
+    if(this.state.uid !== this.state.owner) {
+      return (
+        <div>
+          <p>Sorry your are not the Owner of THAT STORE 👐 </p>
+          {logout}
+        </div>
+      );
+    }
     return (
       <div>
         <h2>Inventory</h2>
+        {logout}
         {Object.keys(this.props.fishes).map(this.renderInventory)}
         <AddFishForm addFish={this.props.addFish} />
         <button onClick={this.props.loadSamples}>Load Sample Fish</button>
