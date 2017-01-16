@@ -2,17 +2,14 @@ import React from 'react';
 import AddFishForm from './AddFishForm';
 
 class Inventory extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.renderInventory = this.renderInventory.bind(this);
   }
   handleChange(e, key) {
     const fish = this.props.fishes[key];
     this.handleChange = this.handleChange.bind(this);
-    const updatedFish = {
-      ...fish,
-      [e.target.name]: [e.target.value]
-    };
+    const updatedFish = { ...fish, [e.target.name]: [ e.target.value ] };
     this.props.updateFish(key, updatedFish);
   }
   renderLogin() {
@@ -23,28 +20,64 @@ class Inventory extends React.Component {
         <button className="github" onClick={() => this.authenticate('github')}>
           Log In with se GITHUB!
         </button>
-        <button className="facebook" onClick={() => this.authenticate('facebook')}>
+        <button
+          className="facebook"
+          onClick={() => this.authenticate('facebook')}
+        >
           Log In with se facebook!
         </button>
-        <button className="twitter" onClick={() => this.authenticate('twitter')}>
+        <button
+          className="twitter"
+          onClick={() => this.authenticate('twitter')}
+        >
           Log In with se twitter!
         </button>
       </nav>
     );
   }
-  renderInventory(key){
+  renderInventory(key) {
     const fish = this.props.fishes[key];
-    return(
+    return (
       <div className="fish-edit" key={key}>
-        <input type='text' name='name' value={fish.name} placeholder='Fish Name'
-          onChange={(e) => this.handleChange(e, key)} />
-        <input type='text' name='price' value={fish.price} placeholder='Fish Price' onChange={(e) => this.handleChange(e, key)}/>
-          <select name='status' value={fish.status} placeholder='Fish Status' onChange={(e) => this.handleChange(e, key)} >
-            <option value='available'>FRESZH</option>
-            <option value='unavailable'>SOULD OUT</option>
-          </select>
-        <textarea type='text' name='desc' value={fish.desc} placeholder='Fish Desc' onChange={(e) => this.handleChange(e, key)}></textarea>
-        <input type='text' name='image' value={fish.image} placeholder='Fish Image' onChange={(e) => this.handleChange(e, key)}/>
+        <input
+          type="text"
+          name="name"
+          value={fish.name}
+          placeholder="Fish Name"
+          onChange={e => this.handleChange(e, key)}
+        />
+        <input
+          type="text"
+          name="price"
+          value={fish.price}
+          placeholder="Fish Price"
+          onChange={e => this.handleChange(e, key)}
+        />
+        <select
+          name="status"
+          value={fish.status}
+          placeholder="Fish Status"
+          onChange={e => this.handleChange(e, key)}
+        >
+          <option value="available">FRESZH</option>
+          <option value="unavailable">SOULD OUT</option>
+        </select>
+        <textarea
+          type="text"
+          name="desc"
+          value={fish.desc}
+          placeholder="Fish Desc"
+          onChange={e => this.handleChange(e, key)}
+        >
+
+        </textarea>
+        <input
+          type="text"
+          name="image"
+          value={fish.image}
+          placeholder="Fish Image"
+          onChange={e => this.handleChange(e, key)}
+        />
         <button onClick={() => this.props.removeFish(key)}>Remove Fish</button>
       </div>
     );
